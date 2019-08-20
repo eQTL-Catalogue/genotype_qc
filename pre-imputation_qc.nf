@@ -95,6 +95,9 @@ process filter_vcf{
 }
 
 process split_by_chr{
+
+    publishDir "${params.outdir}/by_chr", mode: 'copy',
+        saveAs: {filename -> if (filename.indexOf(".vcf.gz") > 0) filename else null }
     
     input:
     set file(input_vcf), file(input_vcf_index) from filtered_vcf_ch
