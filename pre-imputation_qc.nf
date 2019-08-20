@@ -44,7 +44,7 @@ process plink_to_vcf{
     script:
     """
     plink2 --bfile ${bed.simpleName} --recode vcf-iid --out ${bed.simpleName}
-    bgzip harmonised.vcf.gz
+    bgzip harmonised.vcf
     """
 }
 
