@@ -108,6 +108,6 @@ process split_by_chr{
 
     script:
     """
-    bcftools view -r 1 ${input_vcf} -Oz -o chr_${chr}.vcf.gz
+    bcftools view -r ${chr} ${input_vcf} -Oz -o chr_${chr}.vcf.gz
     """
 }
