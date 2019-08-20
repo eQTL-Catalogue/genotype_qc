@@ -86,7 +86,7 @@ process filter_vcf{
      bcftools filter -e 'REF="N" | REF="I" | REF="D"' |\
      bcftools filter -e "ALT='.'" |\
      bcftools norm -d all |\
-     bcftools norm -m+any |\ 
+     bcftools norm -m+any |\
      bcftools view -m2 -M2 -Oz -o filtered.vcf.gz
     """
 }
