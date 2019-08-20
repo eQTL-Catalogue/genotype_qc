@@ -67,3 +67,26 @@ process vcf_fixref{
      -i ${vcf_file}
     """
 }
+
+process filter_vcf{
+
+    input:
+    file input_vcf from fixref_vcf_ch
+
+    output:
+    file "filtered.vcf.gz" into filtered_vcf_ch
+
+    script:
+    """
+    #Add tags
+    bcftools +fill-tags ${input_vcf} -Oz -o tagged.vcf.gz
+
+    #Filter rare and non-HWE variants and those with abnormal alleles and duplicates
+    bcftools filter -i 'INFO/HWE > 1e-6 & F_MISSING < 0.05 & MAF[0] > 0.01' tagged.vcf.gz |\
+     bcftools filter -e 'REF="N" | REF="I" | REF="D"' |\
+     bcftools filter -e "ALT='.'" |\
+     bcftools norm -d all |\
+     bcftools norm -m+any |\ 
+     bcftools view -m2 -M2 -Oz -o filtered.vcf.gz
+    """
+}
