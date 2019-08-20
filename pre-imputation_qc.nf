@@ -43,7 +43,7 @@ process plink_to_vcf{
 
     script:
     """
-    plink --bfile ${bed.simpleName} --recode vcf-iid --out ${bed.simpleName}
+    plink2 --bfile ${bed.simpleName} --recode vcf-iid --out ${bed.simpleName}
     bgzip ${bed.simpleName}.vcf
     """
 }
