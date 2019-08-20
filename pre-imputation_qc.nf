@@ -16,7 +16,7 @@ Channel
 process harmonise_genotypes{
     input:
     set file(study_name_bed), file(study_name_bim), file(study_name_fam) from bfile_ch
-    set file(vcf_file), file(vcf_file_index) from ref_panel_ch
+    set file(vcf_file), file(vcf_file_index) from ref_panel_ch.collect()
 
     output:
     set file("${study_name_bed.simpleName}_harmonised.bed"), file("${study_name_bed.simpleName}_harmonised.bim"), file("${study_name_bed.simpleName}_harmonised.fam") into harmonised_genotypes
@@ -45,5 +45,25 @@ process plink_to_vcf{
     """
     plink2 --bfile ${bed.simpleName} --recode vcf-iid --out ${bed.simpleName}
     bgzip ${bed.simpleName}.vcf
+    """
+}
+
+process vcf_fixref{
+    
+    input:
+    file input_vcf from harmonised_vcf_ch
+    file fasta from ref_genome_ch.collect()
+    set file(vcf_file), file(vcf_file_index) from ref_panel_ch.collect()
+
+    output:
+    file "fixref.vcf.gz" into fixref_vcf_ch
+
+    script:
+    """
+    bcftools index ${input_vcf}\
+    bcftools +fixref ${input_vcf} -Oz\
+     -o fixref.vcf.gz --\
+     -f ${fasta}\
+     -i ${vcf_file}
     """
 }
