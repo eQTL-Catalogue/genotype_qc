@@ -74,7 +74,7 @@ process filter_vcf{
     file input_vcf from fixref_vcf_ch
 
     output:
-    file "filtered.vcf.gz" into filtered_vcf_ch
+    set file("filtered.vcf.gz"), file("filtered.vcf.gz.csi") into filtered_vcf_ch
 
     script:
     """
@@ -88,5 +88,23 @@ process filter_vcf{
      bcftools norm -d all |\
      bcftools norm -m+any |\
      bcftools view -m2 -M2 -Oz -o filtered.vcf.gz
+
+     #Index the output file
+     bcftools index filtered.vcf.gz
+    """
+}
+
+process split_by_chr{
+    
+    input:
+    set file(input_vcf), file(input_vcf_index) from filtered_vcf_ch
+    val chr from Channel.from(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22)
+
+    output:
+    file "chr_${chr}.vcf.gz" into individual_chromosomes
+
+    script:
+    """
+    bcftools view -r 1 ${input_vcf} -Oz -o chr_${chr}.vcf.gz
     """
 }
