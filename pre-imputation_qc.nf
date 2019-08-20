@@ -60,7 +60,7 @@ process vcf_fixref{
 
     script:
     """
-    bcftools index ${input_vcf}\
+    bcftools index ${input_vcf}
     bcftools +fixref ${input_vcf} -Oz\
      -o fixref.vcf.gz --\
      -f ${fasta}\
