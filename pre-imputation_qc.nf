@@ -98,7 +98,7 @@ process split_by_chr{
     
     input:
     set file(input_vcf), file(input_vcf_index) from filtered_vcf_ch
-    val chr from Channel.from(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22)
+    each chr from Channel.from(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22)
 
     output:
     file "chr_${chr}.vcf.gz" into individual_chromosomes
