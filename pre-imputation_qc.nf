@@ -56,7 +56,7 @@ process vcf_fixref{
     set file(vcf_file), file(vcf_file_index) from ref_panel_vcf_fixref.collect()
 
     output:
-    file "fixref.vcf.gz" into fixref_vcf_ch
+    file "fixref.vcf.gz" into filter_vcf_input
 
     script:
     """
@@ -71,13 +71,13 @@ process vcf_fixref{
 process filter_vcf{
 
     publishDir "${params.outdir}", mode: 'copy',
-        saveAs: {filename -> if (filename == "filtered.vcf.gz") "${params.output_name}" else null }
+        saveAs: {filename -> if (filename == "filtered.vcf.gz") "${params.output_name}.vcf.gz" else null }
 
     input:
-    file input_vcf from fixref_vcf_ch
+    file input_vcf from filter_vcf_input
 
     output:
-    set file("filtered.vcf.gz"), file("filtered.vcf.gz.csi") into filtered_vcf_ch
+    set file("filtered.vcf.gz"), file("filtered.vcf.gz.csi") into split_vcf_input, missingness_input
 
     script:
     """
@@ -97,13 +97,29 @@ process filter_vcf{
     """
 }
 
+process calculate_missingness{
+    publishDir "${params.outdir}", mode: 'copy',
+        saveAs: {filename -> if (filename == "genotypes.imiss") "${params.output_name}.imiss" else null }
+    
+    input:
+    file vcf from missingness_input 
+
+    output:
+    file "genotypes.imiss" into missing_individuals
+
+    script:
+    """
+    vcftools --gzvcf ${vcf} --missing-indv --out genotypes
+    """
+}
+
 process split_by_chr{
 
     publishDir "${params.outdir}/by_chr", mode: 'copy',
         saveAs: {filename -> if (filename.indexOf(".vcf.gz") > 0) filename else null }
     
     input:
-    set file(input_vcf), file(input_vcf_index) from filtered_vcf_ch
+    set file(input_vcf), file(input_vcf_index) from split_vcf_input
     each chr from Channel.from(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22)
 
     output:
