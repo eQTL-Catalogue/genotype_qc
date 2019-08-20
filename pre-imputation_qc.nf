@@ -24,8 +24,8 @@ process harmonise_genotypes{
     """
     java -jar $baseDir/bin/GenotypeHarmonizer-1.4.20/GenotypeHarmonizer.jar\
      --input ${study_name_bed.simpleName}\
-     --inputType PLINK_BED\ 
-     --ref /gpfs/hpc/home/a72094/datasets/1000G/GRCh37_allele_frequencies\ 
+     --inputType PLINK_BED\
+     --ref /gpfs/hpc/home/a72094/datasets/1000G/GRCh37_allele_frequencies\
      --refType VCF\
      --update-id\
      --output ${study_name_bed.simpleName}.harmonized
