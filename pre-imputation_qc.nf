@@ -70,6 +70,9 @@ process vcf_fixref{
 
 process filter_vcf{
 
+    publishDir "${params.outdir}", mode: 'copy',
+        saveAs: {filename -> if (filename == "filtered.vcf.gz") "${params.output_name}" else null }
+
     input:
     file input_vcf from fixref_vcf_ch
 
