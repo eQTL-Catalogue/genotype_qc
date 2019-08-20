@@ -102,14 +102,14 @@ process calculate_missingness{
         saveAs: {filename -> if (filename == "genotypes.imiss") "${params.output_name}.imiss" else null }
     
     input:
-    file vcf from missingness_input 
+    set file(input_vcf), file(input_vcf_index) from missingness_input 
 
     output:
     file "genotypes.imiss" into missing_individuals
 
     script:
     """
-    vcftools --gzvcf ${vcf} --missing-indv --out genotypes
+    vcftools --gzvcf ${input_vcf} --missing-indv --out genotypes
     """
 }
 
