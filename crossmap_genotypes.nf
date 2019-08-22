@@ -35,11 +35,11 @@ process filter_vcf{
     val r2_thresh from Channel.from(params.r2_thresh)
 
     output:
-    file "${vcf.simpleName}.vcf.gz" into filtered_vcf_ch
+    file "${vcf.simpleName}_filtered.vcf.gz" into filtered_vcf_ch
 
     shell:
     """
-    bcftools filter -i 'INFO/R2 > ${r2_thresh}' ${vcf} -Oz -o ${vcf.simpleName}.vcf.gz
+    bcftools filter -i 'INFO/R2 > ${r2_thresh}' ${vcf} -Oz -o ${vcf.simpleName}_filtered.vcf.gz
     """
 }
 
