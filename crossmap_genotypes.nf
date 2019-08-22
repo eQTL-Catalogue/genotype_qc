@@ -35,7 +35,7 @@ process filter_vcf{
     val r2_thresh from Channel.from(params.r2_thresh)
 
     output:
-    file "${vcf.simpleName}_filtered.vcf.gz" into filtered_vcf_ch
+    file "${vcf.simpleName}_filtered.vcf.gz" into filtered_vcfs
 
     shell:
     """
@@ -45,7 +45,7 @@ process filter_vcf{
 
 process merge_vcf{
     input:
-    file input_files from filtered_vcf_ch.collect()
+    file input_files from filtered_vcfs.collect()
 
     output:
     file "output.vcf.gz" into merged_vcf_ch
