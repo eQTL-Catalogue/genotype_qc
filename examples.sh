@@ -1,0 +1,1 @@
+nextflow run crossmap_genotypes.nf -profile crossmap -resume --vcf_files "/gpfs/hpc/home/a72094/datasets/controlled_access/Schmiedel_2018/genotypes/Michigan_GRCh37_Phase3_210819/GRCh37/chr*.dose.vcf.gz"
