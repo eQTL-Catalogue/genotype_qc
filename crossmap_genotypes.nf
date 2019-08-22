@@ -45,7 +45,7 @@ process filter_vcf{
 
 process merge_vcf{
     input:
-    file input_files from filtered_vcf_ch.groupTuple()
+    file input_files from filtered_vcf_ch.collect()
 
     output:
     file "output.vcf.gz" into merged_vcf_ch
