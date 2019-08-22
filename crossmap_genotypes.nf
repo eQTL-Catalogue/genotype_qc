@@ -57,17 +57,36 @@ process merge_vcf{
 }
 
 process keep_chromosomes{
+    publishDir "${params.outdir}", mode: 'copy',
+        saveAs: {filename -> if (filename == "renamed.vcf.gz") "${params.output_name}.vcf.gz" else null }
+    
     input:
     file input_vcf from merged_vcf_ch
 
     output:
-    file "output.vcf.gz" into final_vcf_ch
+    file "renamed.vcf.gz" into final_vcf_ch
 
     shell:
     """
     bcftools index ${input_vcf}
     bcftools view -r 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X ${input_vcf} |\
-     bcftools annotate --set-id 'chr%CHROM\\_%POS\\_%REF\\_%FIRST_ALT' -Oz -o output.vcf.gz
+     bcftools annotate --set-id 'chr%CHROM\\_%POS\\_%REF\\_%FIRST_ALT' -Oz -o renamed.vcf.gz
+    """
+}
+
+process maf_filter{
+    publishDir "${params.outdir}", mode: 'copy',
+        saveAs: {filename -> if (filename == "filtered.vcf.gz") "${params.output_name}.MAF001.vcf.gz" else null }
+    
+    input:
+    file input_vcf from final_vcf_ch
+
+    output:
+    file "filtered.vcf.gz" into filtered_vcf_channel
+
+    shell:
+    """
+    bcftools filter -i 'MAF[0] > 0.01' ${input_vcf} -Oz -o filtered.vcf.gz
     """
 }
 
