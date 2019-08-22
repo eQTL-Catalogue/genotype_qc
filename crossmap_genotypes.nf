@@ -67,7 +67,7 @@ process keep_chromosomes{
     """
     bcftools index ${input_vcf}
     bcftools view -r 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X ${input_vcf} |\
-     bcftools annotate --set-id 'chr%CHROM\_%POS\_%REF\_%FIRST_ALT' -Oz -o output.vcf.gz
+     bcftools annotate --set-id 'chr%CHROM\\_%POS\\_%REF\\_%FIRST_ALT' -Oz -o output.vcf.gz
     """
 }
 
