@@ -11,5 +11,5 @@ dependencies:
   - bioconda::plink2=1.90b3.35
   - bioconda::csvtk=0.18.2
   - bioconda::vcftools=0.1.16
-  - bioconda::crossmap=0.3.6
+  - bioconda::crossmap=0.2.8
   - bioconda::java-jdk=8.0.112
