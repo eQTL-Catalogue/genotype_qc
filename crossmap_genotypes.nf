@@ -20,12 +20,12 @@ process crossmap_genotypes{
     each file(vcf) from vcf_file_ch
 
     output:
-    file "output.vcf.gz" into mapped_vcf_ch
+    file "${vcf.simpleName}_mapped.vcf.gz" into mapped_vcf_ch
 
     shell:
     """
-    CrossMap.py vcf ${chain_file} ${vcf} ${ref_genome} output.vcf
-    bgzip output.vcf
+    CrossMap.py vcf ${chain_file} ${vcf} ${ref_genome} ${vcf.simpleName}_mapped.vcf
+    bgzip ${vcf.simpleName}_mapped.vcf
     """
 }
 
@@ -35,11 +35,11 @@ process filter_vcf{
     val r2_thresh from Channel.from(params.r2_thresh)
 
     output:
-    file "output.vcf.gz" into filtered_vcf_ch
+    file "${vcf.simpleName}.vcf.gz" into filtered_vcf_ch
 
     shell:
     """
-    bcftools filter -i 'INFO/R2 > ${r2_thresh}' ${vcf} -Oz -o {output.vcf}
+    bcftools filter -i 'INFO/R2 > ${r2_thresh}' ${vcf} -Oz -o ${vcf.simpleName}.vcf.gz
     """
 }
 
