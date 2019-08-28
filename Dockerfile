@@ -1,6 +1,6 @@
 FROM nfcore/base
-LABEL authors="phil.ewels@scilifelab.se" \
-      description="Docker image containing all requirements for the nfcore/rnaseq pipeline"
+LABEL authors="kaur.alasoo@ut.ee" \
+      description="Docker image containing all requirements for the kauralasoo/genotype_qc pipeline"
 
 COPY environment.yml /
 RUN conda env create -f /environment.yml && conda clean -a
