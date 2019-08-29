@@ -15,4 +15,8 @@ QC steps:
 
 ## 3. Project individuals to reference populations from 1000 Genomes Project.
 
+```bash
+nextflow run pop_assign.nf -profile pop_assign --vcf <path_to_vcf.vcf.gz> --data_name <study_name>
+```
+
 
