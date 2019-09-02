@@ -2,7 +2,9 @@
 This repository contains three workflows for performing genotype data QC for the eQTL Catalogue project. 
 
 ### Dependencies
-Most of the software dependencies for the pipelines are listed in the [conda environment](https://github.com/kauralasoo/genotype_qc/blob/master/environment.yml) file. The pipelines also depend on LDAK and [GenotypeHarmonizer](https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer) and [LDAK5](http://dougspeed.com/ldak/) that need to be downladed separately.
+Most of the software dependencies for the pipelines are listed in the [conda environment](https://github.com/kauralasoo/genotype_qc/blob/master/environment.yml) file. Docker container with all of these dependencies can be obtained from [DockerHub](https://hub.docker.com/r/kauralasoo/genotype_qc).
+
+The pipelines also require [GenotypeHarmonizer](https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer) and [LDAK5](http://dougspeed.com/ldak/) that need to be downladed separately. Script for downloading those can be found [here](https://github.com/kauralasoo/genotype_qc/blob/master/download_binaries.sh).
 
 ## 1. Pre-imputation QC (pre-imputation.nf)
 Preparing genotype data for imputation to the 1000 Genomes Phase 3 reference panel.
