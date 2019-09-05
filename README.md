@@ -18,7 +18,14 @@ QC steps:
 
 ## 2. Convert imputed genotypes to GRCh38 coordinates (crossmap.nf)
 
-## 3. Project individuals to reference populations from 1000 Genomes Project.
+## 3. Project individuals to 1000 Genomes Project reference populations (pop_assign.nf).
+
+**Input**
+Genotype data imputed to 1000 Genomes Phase 3 reference panel.
+
+**Analysis steps**
+- Perform LD pruning on the reference dataset with [PLINK](https://www.cog-genomics.org/plink/1.9/).
+- Perform PCA and project new samples to the reference principal components with [LDAK](http://dougspeed.com/ldak/).
 
 ```bash
 nextflow run pop_assign.nf -profile pop_assign --vcf <path_to_vcf.vcf.gz> --data_name <study_name>
