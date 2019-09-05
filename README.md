@@ -32,5 +32,7 @@ Genotype data imputed to 1000 Genomes Phase 3 reference panel.
 ```bash
 nextflow run pop_assign.nf -profile pop_assign --vcf <path_to_vcf.vcf.gz> --data_name <study_name>
 ```
-Authors: Initial version of the population assignment pipeline was implemented by [Katerina Peikova](https://github.com/peikovakate) and Marija Samoviča, later modified by [Nurlan Kerimov](https://github.com/kerimoff/) and Kaur Alasoo.
+#### Authors
+
+Initial version of the population assignment pipeline was implemented by [Katerina Peikova](https://github.com/peikovakate) and Marija Samoviča, later modified by [Nurlan Kerimov](https://github.com/kerimoff/) and Kaur Alasoo.
 
