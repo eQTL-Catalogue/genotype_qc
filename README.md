@@ -7,7 +7,7 @@ Most of the software dependencies for the pipelines are listed in the [conda env
 The pipelines also require [GenotypeHarmonizer](https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer) and [LDAK5](http://dougspeed.com/ldak/) that need to be downladed separately. Script for downloading those can be found [here](https://github.com/kauralasoo/genotype_qc/blob/master/download_binaries.sh).
 
 ## 1. Pre-imputation QC (pre-imputation.nf)
-Preparing genotype data for imputation to the 1000 Genomes Phase 3 reference panel.
+Preparing genotype data for imputation to the 1000 Genomes Phase 3 reference panel with [Michigan Imputation Server](https://imputationserver.sph.umich.edu). We have installed the imputation server [locally](https://imputationserver.readthedocs.io/en/latest/docker/). 
 
 QC steps:
 - Align raw genotypes to the reference panel with [Genotype Harmonizer](https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer).
