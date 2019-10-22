@@ -16,7 +16,7 @@ process main_vcf_to_binary{
     file "vcf_main.vcf.gz" from main_vcf
 
     output:
-    set file('main.bed'), file('main.bim'), file('main.fam') into main_to_delete_dublicates, calculate_relatedness_ch
+    set file('main.bed'), file('main.bim'), file('main.fam') into main_to_delete_dublicates
 
     script:
     """
@@ -25,28 +25,6 @@ process main_vcf_to_binary{
 
     # make bfiles for pruned 1000 genome proj 
     plink2 --vcf vcf_main.vcf.gz --vcf-half-call h --extract main_pruned_varaints_list.prune.in --make-bed --out main
-    """
-}
-
-process calculate_relatedness_matrix{
-    publishDir "${params.outdir}", mode: 'copy'
-
-    input:
-    set file('main.bed'), file('main.bim'), file('main.fam') from calculate_relatedness_ch
-    
-    output:
-    file("relatedness_matrix.tsv") into relatedness_matrix_ch
-
-    script:
-    """
-    #Calculate relatedness
-    plink2 --make-rel square --bfile main
-
-    #Format relatedness matrix
-    Rscript $baseDir/bin/format_kinship.R \\
-        --kinship plink.rel \\
-        --fam main.fam \\
-        --out relatedness_matrix.tsv
     """
 }
 
@@ -115,13 +93,44 @@ process convertVCFtoBED{
     file 'source.vcf.gz' from vcf_file
 
     output:
-    set file ('binary_source.bed'), file('binary_source.bim'), file('binary_source.fam') into bed_files
+    set file ('binary_source.bed'), file('binary_source.bim'), file('binary_source.fam') into bed_files, calculate_relatedness_ch
 
     script:
     """
     plink2 --vcf source.vcf.gz --out binary_source --threads ${task.cpus}
     plink2 --bfile binary_source --list-duplicate-vars --out list_dubl
     plink2 --bfile binary_source --exclude list_dubl.dupvar --snps-only --make-bed --out binary_source
+    """
+}
+
+process calculate_relatedness_matrix{
+    publishDir "${params.outdir}", mode: 'copy'
+
+    input:
+    set file('binary_source.bed'), file('binary_source.bim'), file('binary_source.fam') from calculate_relatedness_ch
+    
+    output:
+    file("relatedness_matrix.tsv") into relatedness_matrix_ch
+
+    script:
+    """
+    #Filter low MAF and low HWE snps
+    plink2 --bfile binary_source --maf 0.05 --hwe 1e-6 --hwe-all --make-bed --out binary_filtered
+
+    #Perform LD pruning
+    plink2 --bfile binary_filtered --indep-pairwise 250 50 0.2 --out pruned_genotypes
+
+    #Make pruned plink file 
+    plink2 --bfile binary_filtered --extract pruned_genotypes.prune.in --make-bed --out binary_pruned
+
+    #Calculate relatedness
+    plink2 --make-rel square --bfile binary_pruned
+
+    #Format relatedness matrix
+    Rscript $baseDir/bin/format_kinship.R \\
+        --kinship plink.rel \\
+        --fam binary_pruned.fam \\
+        --out relatedness_matrix.tsv
     """
 }
 
