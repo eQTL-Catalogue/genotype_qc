@@ -150,8 +150,7 @@ process extract_overlapped_SNPs_from_main_dataset {
     set file('main_source.bed'), file('main_source.bim'), file('main_source.fam') from main_binary_source
 
     output:
-    set file('main_overlapped.bed'), file('main_overlapped.bim'), file('main_overlapped.fam') into main_to_kins
-    set file('main_overlapped.bed'), file('main_overlapped.bim'), file('main_overlapped.fam') into main_bed_to_pca
+    set file('main_overlapped.bed'), file('main_overlapped.bim'), file('main_overlapped.fam') into main_to_kins, main_bed_to_pca
 
     script:
     """
@@ -228,9 +227,4 @@ process plot_pca{
 workflow.onComplete { 
 	println ( workflow.success ? "Done!" : "Oops ... something went wrong" )
 }
-
-
-
-
-
 
