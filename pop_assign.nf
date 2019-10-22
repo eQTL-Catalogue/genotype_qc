@@ -94,12 +94,17 @@ process convertVCFtoBED{
 
     output:
     set file ('binary_source.bed'), file('binary_source.bim'), file('binary_source.fam') into bed_files, calculate_relatedness_ch
+    file('sample_list.txt') into relatedness_sample_list_ch
 
     script:
     """
+    #Convert VCF to plink
     plink2 --vcf source.vcf.gz --out binary_source --threads ${task.cpus}
     plink2 --bfile binary_source --list-duplicate-vars --out list_dubl
     plink2 --bfile binary_source --exclude list_dubl.dupvar --snps-only --make-bed --out binary_source
+
+    #Extract sample ids
+    bcftools query -l source.vcf.gz > sample_list.txt
     """
 }
 
@@ -108,6 +113,7 @@ process calculate_relatedness_matrix{
 
     input:
     set file('binary_source.bed'), file('binary_source.bim'), file('binary_source.fam') from calculate_relatedness_ch
+    file('sample_list.txt') from relatedness_sample_list_ch
     
     output:
     file("relatedness_matrix.tsv") into relatedness_matrix_ch
@@ -129,7 +135,7 @@ process calculate_relatedness_matrix{
     #Format relatedness matrix
     Rscript $baseDir/bin/format_kinship.R \\
         --kinship plink.rel \\
-        --fam binary_pruned.fam \\
+        --fam sample_list.txt \\
         --out relatedness_matrix.tsv
     """
 }
