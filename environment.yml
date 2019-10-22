@@ -16,3 +16,4 @@ dependencies:
   - conda-forge::r-dplyr=0.8.3
   - conda-forge::r-ggplot2=3.2.1
   - conda-forge::r-dmwr=0.4.1
+  - conda-forge::r-optparse=1.6.1

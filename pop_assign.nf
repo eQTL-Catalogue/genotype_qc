@@ -16,7 +16,7 @@ process main_vcf_to_binary{
     file "vcf_main.vcf.gz" from main_vcf
 
     output:
-    set file('main.bed'), file('main.bim'), file('main.fam') into main_to_delete_dublicates
+    set file('main.bed'), file('main.bim'), file('main.fam') into main_to_delete_dublicates, calculate_relatedness_ch
 
     script:
     """
@@ -25,6 +25,28 @@ process main_vcf_to_binary{
 
     # make bfiles for pruned 1000 genome proj 
     plink2 --vcf vcf_main.vcf.gz --vcf-half-call h --extract main_pruned_varaints_list.prune.in --make-bed --out main
+    """
+}
+
+process calculate_relatedness_matrix{
+    publishDir "${params.outdir}", mode: 'copy'
+
+    input:
+    set file('main.bed'), file('main.bim'), file('main.fam') from calculate_relatedness_ch
+    
+    output:
+    file("relatedness_matrix.tsv") into relatedness_matrix_ch
+
+    script:
+    """
+    #Calculate relatedness
+    plink2 --make-rel square --bfile main
+
+    #Format relatedness matrix
+    Rscript $baseDir/bin/format_kinship.R \\
+        --kinship main.rel \\
+        --fam main.fam \\
+        --out relatedness_matrix.tsv
     """
 }
 
