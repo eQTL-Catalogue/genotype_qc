@@ -44,7 +44,7 @@ process calculate_relatedness_matrix{
 
     #Format relatedness matrix
     Rscript $baseDir/bin/format_kinship.R \\
-        --kinship main.rel \\
+        --kinship plink.rel \\
         --fam main.fam \\
         --out relatedness_matrix.tsv
     """
