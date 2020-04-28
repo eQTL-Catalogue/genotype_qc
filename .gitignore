@@ -1,3 +1,5 @@
 .nextflow*
 work
 .DS_Store
+bin/ldak
+bin/GenotypeHarmonizer*
