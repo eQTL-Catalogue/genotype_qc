@@ -2,7 +2,7 @@
 This repository contains three workflows for performing genotype data QC for the eQTL Catalogue project. 
 
 ### Dependencies
-Most of the software dependencies for the pipelines are listed in the [conda environment](https://github.com/kauralasoo/genotype_qc/blob/master/environment.yml) file. Docker container with all of these dependencies can be obtained from [DockerHub](https://hub.docker.com/r/kauralasoo/genotype_qc).
+Most of the software dependencies for the pipelines are listed in the [conda environment](https://github.com/kauralasoo/genotype_qc/blob/master/environment.yml) file. Docker container with all of these dependencies can be obtained from [DockerHub](https://hub.docker.com/repository/docker/eqtlcatalogue/genotype_qc).
 
 The pipelines also require [GenotypeHarmonizer](https://github.com/molgenis/systemsgenetics/wiki/Genotype-Harmonizer) and [LDAK5](http://dougspeed.com/ldak/) that need to be downladed separately. Script for downloading those can be found [here](https://github.com/kauralasoo/genotype_qc/blob/master/download_binaries.sh).
 
