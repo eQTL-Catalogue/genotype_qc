@@ -16,6 +16,15 @@ QC steps:
 - Calculate individual-level missingness using [vcftools](https://vcftools.github.io/perl_module.html).
 - Create separate VCF files for each chromosome.
 
+Execution:
+
+```bash
+nextflow run pre-imputation_qc.nf -profile eqtl_catalogue -resume\
+ --bfile /gpfs/hpc/projects/genomic_references/CEDAR/genotypes/PLINK_100718_1018/CEDAR\
+ --output_name CEDAR_GRCh37_genotyped\
+ --outdir CEDAR 
+```
+
 ## 2. Convert imputed genotypes to GRCh38 coordinates (crossmap.nf)
 
 ## 3. Project individuals to 1000 Genomes Project reference populations (pop_assign.nf).
