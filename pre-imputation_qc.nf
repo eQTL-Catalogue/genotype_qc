@@ -23,7 +23,7 @@ process harmonise_genotypes{
 
     script:
     """
-    java -jar $baseDir/bin/GenotypeHarmonizer-1.4.20/GenotypeHarmonizer.jar\
+    java -jar /usr/bin/GenotypeHarmonizer.jar\
      --input ${study_name_bed.baseName}\
      --inputType PLINK_BED\
      --ref ${vcf_file.simpleName}\
