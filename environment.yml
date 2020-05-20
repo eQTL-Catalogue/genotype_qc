@@ -11,7 +11,7 @@ dependencies:
   - bioconda::plink2=1.90b3.35
   - bioconda::csvtk=0.18.2
   - bioconda::vcftools=0.1.16
-  - bioconda::crossmap=0.2.8
+  - bioconda::crossmap=0.4.1
   - bioconda::java-jdk=8.0.112
   - conda-forge::r-dplyr=0.8.3
   - conda-forge::r-ggplot2=3.2.1
