@@ -25,7 +25,7 @@ process crossmap_genotypes{
     shell:
     """
     #Exlcude structural variants, beause they break latest version of CrossMap.py
-    bcftools --exclude-types other ${vcf} -Oz -o ${vcf.simpleName}_noSVs.vcf.gz
+    bcftools view --exclude-types other ${vcf} -Oz -o ${vcf.simpleName}_noSVs.vcf.gz
 
     #Run CrossMap.py
     CrossMap.py vcf ${chain_file} ${vcf.simpleName}_noSVs.vcf.gz ${ref_genome} ${vcf.simpleName}_mapped.vcf
