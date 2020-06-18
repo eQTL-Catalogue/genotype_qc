@@ -1,5 +1,5 @@
 ### Build the Docker container
-sudo docker build -t kauralasoo/genotype_qc:<latest_git_commit_hash> .
+sudo docker build -t eqtlcatalogue/genotype_qc:<latest_git_commit_hash> .
 
 ### To get the hash of the latest git commit, run:
 # https://blog.container-solutions.com/tagging-docker-images-the-right-way
