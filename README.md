@@ -1,5 +1,7 @@
 # Genotype Quality Control
-This repository contains three workflows for performing genotype data QC for the eQTL Catalogue project. 
+This repository contains three workflows for performing genotype data QC for the eQTL Catalogue project.
+
+Parts of this workflow have been merged into the [eQTL-Catalogue/geimpute workflow](https://github.com/eQTL-Catalogue/genimpute). This workflow is no longer maintained independently. 
 
 ### Dependencies
 Most of the software dependencies for the pipelines are listed in the [conda environment](https://github.com/kauralasoo/genotype_qc/blob/master/environment.yml) file. Docker container with all of these dependencies can be obtained from [DockerHub](https://hub.docker.com/repository/docker/eqtlcatalogue/genotype_qc).
